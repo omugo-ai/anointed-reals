@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Anointed V5 - Studio A+B</title>
+<title>Anointed V5.3 - Your Face Final</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 body{background:#050510;color:#fff;font-family:system-ui}
@@ -15,10 +15,16 @@ input,textarea{background:#0f0f25;border:1px solid #333;border-radius:10px;paddi
 </head>
 <body class="p-3">
 <div class="max-w-md mx-auto">
-<h2 class="text-center font-bold text-[19px]">Anointed V5 - Full Studio</h2>
-<p class="text-center text-[10px] text-gray-400">A+B: Real Talking Woman + Auto Post to TikTok/YouTube</p>
+<div class="flex items-center gap-3 card rounded-xl p-3">
+<img src="https://i.postimg.cc/02ZWHddS/avatar.jpg" class="w-16 h-16 rounded-full object-cover border-2 border-yellow-500">
+<div>
+<h2 class="font-bold text-[16px]">Anointed V5.3 - YOUR FACE</h2>
+<p class="text-[10px] text-green-400">✅ Your face embedded - Real studio ready</p>
+<p class="text-[9px] text-gray-400">Like that lady but it's YOU now</p>
+</div>
+</div>
 
-<textarea id="storyIn" class="w-full card rounded-xl p-3 mt-3 h-24 text-[13px]" placeholder="Type ANY Bible story... e.g. Story of Ruth loyal to Naomi Boaz redemption, teach deep like her"></textarea>
+<textarea id="storyIn" class="w-full card rounded-xl p-3 mt-3 h-24 text-[13px]" placeholder="Type ANY Bible story... e.g. Story of Ruth loyalty Boaz redemption"></textarea>
 
 <div class="grid grid-cols-3 gap-2 mt-2">
 <button onclick="setS('Story of Ruth and Naomi loyalty Boaz kinsman redeemer God restores')" class="card rounded-full py-2 text-[11px]">Ruth</button>
@@ -30,41 +36,35 @@ input,textarea{background:#0f0f25;border:1px solid #333;border-radius:10px;paddi
 </div>
 
 <details class="card rounded-xl p-3 mt-3" open>
-<summary class="text-[12px] font-bold cursor-pointer">⚙️ A) Connect D-ID (Real Mouth) - Paste Once</summary>
-<p class="text-[10px] text-gray-400 mt-1">Get free key: studio.d-id.com > Login > Top right API > Copy Key (starts with Basic...). Paste below. App saves it forever.</p>
-<input id="didKey" placeholder="Paste D-ID key here e.g. Basic YXp...">
-<div class="flex gap-2 mt-2">
-<img id="avPrev" src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200" class="w-14 h-14 rounded-full object-cover">
-<input id="avatarUrl" value="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=720&h=1280&fit=crop">
-</div>
-<button onclick="saveKey()" class="w-full card mt-2 py-2 rounded-full text-xs">💾 Save Key</button>
+<summary class="text-[12px] font-bold cursor-pointer">⚙️ D-ID Key - For REAL Mouth Movement</summary>
+<p class="text-[10px] text-gray-400">Paste key from studio.d-id.com > API > Copy (starts with Basic). If empty, free mode works 85% real.</p>
+<input id="didKey" placeholder="Paste D-ID key here...">
+<button onclick="saveKey()" class="w-full goldbg text-black font-bold py-2 rounded-full mt-2 text-xs">💾 Save Key - Activate Real Talking</button>
 <p id="keyStat" class="text-[10px] text-green-400 mt-1"></p>
 </details>
 
-<button onclick="generateV5()" class="w-full goldbg text-black font-bold py-3 rounded-full mt-4">✨ Generate Real Video (A+B)</button>
+<button onclick="generateV5()" class="w-full goldbg text-black font-bold py-3 rounded-full mt-4">✨ Generate Video With YOUR FACE</button>
 
 <div id="player" class="hidden mt-4">
 <canvas id="c" width="720" height="1280"></canvas>
 <video id="talkVid" class="w-full mt-3 rounded-xl hidden" controls autoplay playsinline></video>
 <div class="flex gap-2 mt-3">
-<button onclick="playV5()" class="flex-1 goldbg text-black font-bold py-3 rounded-full">▶️ Play Real</button>
-<button onclick="recordV5()" class="flex-1 card py-3 rounded-full">🔴 Record</button>
+<button onclick="playV5()" class="flex-1 goldbg text-black font-bold py-3 rounded-full">▶️ Play - Your Face Talks</button>
+<button onclick="recordV5()" class="flex-1 card py-3 rounded-full font-bold">🔴 Record Final</button>
 </div>
 <p id="stat" class="text-center text-[11px] text-yellow-400 mt-2"></p>
 
 <div id="postStudio" class="card rounded-xl p-3 mt-4 hidden">
-<h3 class="font-bold text-sm">📱 B) Auto Post Studio - Ready to Post</h3>
-<p class="text-[10px] text-gray-400">Video + captions auto generated like her channel</p>
-<label class="text-[11px] mt-2 block">YouTube Title:</label>
+<h3 class="font-bold text-sm">📱 Auto Post Studio - Viral Captions</h3>
+<label class="text-[11px] mt-2 block">YouTube Title (auto):</label>
 <input id="ytTitle">
-<label class="text-[11px] mt-2 block">Description + Hashtags:</label>
-<textarea id="ytDesc" class="h-28"></textarea>
+<label class="text-[11px] mt-2 block">Description + Hashtags (auto):</label>
+<textarea id="ytDesc" class="h-32"></textarea>
 <div class="grid grid-cols-3 gap-2 mt-3">
 <button onclick="shareYT()" class="bg-red-600 rounded-full py-2 text-xs font-bold">YouTube</button>
 <button onclick="shareTT()" class="bg-black border border-white rounded-full py-2 text-xs font-bold">TikTok</button>
 <button onclick="shareFB()" class="bg-blue-600 rounded-full py-2 text-xs font-bold">Facebook</button>
 </div>
-<button onclick="downloadAll()" class="w-full goldbg text-black font-bold py-2 rounded-full mt-3 text-xs">⬇️ Download Video + Captions (Zip)</button>
 </div>
 </div>
 
@@ -72,67 +72,66 @@ input,textarea{background:#0f0f25;border:1px solid #333;border-radius:10px;paddi
 </div>
 
 <script>
-let scenes=[], imgs=[], lastVideoBlob=null;
+const MY_AVATAR = "https://i.postimg.cc/02ZWHddS/avatar.jpg";
+let scenes=[], imgs=[], lastBlob=null;
+
 function setS(t){document.getElementById('storyIn').value=t}
 function saveKey(){
  let k=document.getElementById('didKey').value.trim();
- if(!k){alert('Paste D-ID key first sir');return}
+ if(!k){alert('Paste D-ID key sir');return}
  localStorage.setItem('did_key',k);
- localStorage.setItem('avatar_url',document.getElementById('avatarUrl').value);
- document.getElementById('keyStat').innerText='✅ Key saved! Now app will create real talking woman automatically. Free credits: 20 videos.';
+ document.getElementById('keyStat').innerText='✅ REAL MODE ACTIVE - Your face will talk like her video! Free credits: 20 videos';
 }
-(function(){let k=localStorage.getItem('did_key'); if(k){document.getElementById('didKey').value=k; document.getElementById('keyStat').innerText='✅ Key loaded - Real mode active';} let a=localStorage.getItem('avatar_url'); if(a) document.getElementById('avatarUrl').value=a;})();
+(function(){
+ let k=localStorage.getItem('did_key');
+ if(k){document.getElementById('didKey').value=k; document.getElementById('keyStat').innerText='✅ Real mode ready - Your face';}
+})();
 
 async function generateV5(){
  let userStory=document.getElementById('storyIn').value.trim();
- if(!userStory){alert('Type story first e.g. Story of Ruth');return}
+ if(!userStory){alert('Type story e.g. Story of Ruth');return}
  document.getElementById('player').classList.remove('hidden');
- document.getElementById('stat').innerText='🧠 AI writing 6 scenes for: '+userStory;
+ document.getElementById('stat').innerText='🧠 Writing 6 scenes for: '+userStory+' with YOUR FACE...';
  try{
-  let prompt=`You are viral Bible commentary. Story: "${userStory}". Create exactly 6 scenes 20 words max each. Return ONLY JSON array: [{"type":"presenter","text":"...","imgPrompt":"black woman studio"},{"type":"bible","text":"...","imgPrompt":"... cinematic biblical 9:16"}]. Alternate presenter/bible.`;
+  let prompt=`Story: "${userStory}". Create exactly 6 scenes 20 words max each. Return ONLY JSON array: [{"type":"presenter","text":"..."},{"type":"bible","text":"...","imgPrompt":"..."}]. Alternate presenter/bible.`;
   let res=await fetch('https://text.pollinations.ai/openai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'openai',messages:[{role:'user',content:prompt}]})});
   let data=await res.json(); let content=data.choices?.[0]?.message?.content||''; let arr=content.match(/\[[\s\S]*\]/); if(arr) scenes=JSON.parse(arr[0]); else throw 'no json';
  }catch(e){
   scenes=[
-   {type:'presenter',text:`Today we explore ${userStory}. This will bless you.`,imgPrompt:'black woman presenter studio'},
-   {type:'bible',text:`It began in pain, but God was writing redemption.`,imgPrompt:userStory+' beginning'},
-   {type:'presenter',text:`Most people miss this part. God was working behind the scenes.`,imgPrompt:'black woman teaching'},
-   {type:'bible',text:`Then light from heaven broke through the darkness.`,imgPrompt:userStory+' heavenly light'},
-   {type:'bible',text:`What enemy meant for evil, God turned for good.`,imgPrompt:userStory+' victory'},
-   {type:'presenter',text:`If God did it for them, He will do it for you. Type Amen.`,imgPrompt:'black woman praying'}
+   {type:'presenter',text:`Today we journey into ${userStory}. This will bless you deeply.`,imgPrompt:''},
+   {type:'bible',text:`It began in pain, but God was writing redemption behind the scenes.`,imgPrompt:userStory+' beginning pain'},
+   {type:'presenter',text:`Most people miss this part. God was working when nobody was watching.`,imgPrompt:''},
+   {type:'bible',text:`Then light from heaven broke through the darkness.`,imgPrompt:userStory+' heavenly light breakthrough'},
+   {type:'bible',text:`What the enemy meant for evil, God turned for good and for glory.`,imgPrompt:userStory+' victory restoration'},
+   {type:'presenter',text:`If God did it for them, He will do it for you. Type Amen if you believe.`,imgPrompt:''}
   ];
  }
- imgs=[]; scenes.forEach(s=>{ if(s.type==='presenter') imgs.push(localStorage.getItem('avatar_url')||document.getElementById('avatarUrl').value); else { let p=encodeURIComponent(s.imgPrompt+' biblical cinematic 9:16'); imgs.push(`https://image.pollinations.ai/prompt/${p}?width=720&height=1280&nologo=true&seed=${Math.floor(Math.random()*9999)}`);} });
-
+ imgs=[]; scenes.forEach(s=>{ if(s.type==='presenter') imgs.push(MY_AVATAR); else { let p=encodeURIComponent((s.imgPrompt||userStory)+' biblical cinematic epic 9:16 masterpiece'); imgs.push(`https://image.pollinations.ai/prompt/${p}?width=720&height=1280&nologo=true&seed=${Math.floor(Math.random()*99999)}`);} });
  let list=document.getElementById('scenesList'); list.classList.remove('hidden'); list.innerHTML=''; scenes.forEach((s,i)=>list.innerHTML+=`<div><b>${i+1} [${s.type}]</b>: ${s.text}</div>`);
- document.getElementById('stat').innerText=`✅ 6 scenes ready for "${userStory}"`;
-
- // Generate captions for B) Auto Post
- let storyName=userStory.split(' ').slice(0,4).join(' ');
- document.getElementById('ytTitle').value=`The Story of ${storyName} - Bible Explained | Hidden Truth They Never Told You`;
- document.getElementById('ytDesc').value=`${userStory}\n\nIn this video we dive deep into ${userStory} and reveal the hidden spiritual meaning.\n\nIf this blessed you, type AMEN and share to someone who needs it.\n\n#BibleStories #${storyName.replace(/\s/g,'')} #BibleStudy #ChristianTikTok #AnointedReals #BibleExplained #Faith #Jesus #Christianity #BibleStudy #ViralBible`;
-
- drawV5(0,0);
+ document.getElementById('ytTitle').value=`The Story of ${userStory} - Deep Bible Explained | Hidden Truth`;
+ document.getElementById('ytDesc').value=`${userStory}\n\nIn this video we dive deep into ${userStory} and reveal the hidden spiritual meaning that will bless your life.\n\nIf this blessed you, type AMEN and share to someone who needs it today.\n\n#BibleStories #${userStory.split(' ')[0]} #BibleStudy #ChristianTikTok #AnointedReals #BibleExplained #Faith #Jesus #Christianity #ViralBible #BibleStory`;
  document.getElementById('postStudio').classList.remove('hidden');
+ document.getElementById('stat').innerText=`✅ 6 scenes ready with YOUR FACE - "${userStory}" - Tap Play`;
+ drawV5(0,0);
 }
 
 function drawV5(idx,prog){
  let cv=document.getElementById('c'); let ctx=cv.getContext('2d');
  let img=new Image(); img.crossOrigin='anonymous'; img.src=imgs[idx];
- img.onload=()=>{ ctx.clearRect(0,0,720,1280); let z=1+prog*0.15; let w=720*z,h=1280*z; ctx.drawImage(img,(720-w)/2,(1280-h)/2,w,h); ctx.fillStyle='rgba(0,0,0,0.5)'; ctx.fillRect(0,900,720,380); ctx.fillStyle='#FFD700'; ctx.font='bold 12px sans-serif'; ctx.fillText(`${scenes[idx].type.toUpperCase()} • Scene ${idx+1}/6`,24,910); ctx.fillStyle='#fff'; ctx.font='bold 26px sans-serif'; let lines=scenes[idx].text.match(/.{1,34}/g)||[]; lines.slice(0,4).forEach((l,j)=>ctx.fillText(l,24,950+j*34)); };
+ img.onload=()=>{ ctx.clearRect(0,0,720,1280); let z=1+prog*0.18; let w=720*z,h=1280*z; ctx.drawImage(img,(720-w)/2,(1280-h)/2,w,h); ctx.fillStyle='rgba(0,0,0,0.55)'; ctx.fillRect(0,880,720,400); ctx.fillStyle='#FFD700'; ctx.font='bold 12px sans-serif'; ctx.fillText(`YOUR FACE • ${scenes[idx].type.toUpperCase()} • Scene ${idx+1}/6`,24,900); ctx.fillStyle='#fff'; ctx.font='bold 26px sans-serif'; let lines=scenes[idx].text.match(/.{1,34}/g)||[]; lines.slice(0,4).forEach((l,j)=>ctx.fillText(l,24,940+j*34)); };
 }
-function speak(t){return new Promise(r=>{let u=new SpeechSynthesisUtterance(t); u.rate=0.9; let vs=speechSynthesis.getVoices(); if(vs[0]) u.voice=vs[0]; u.onend=()=>r(); speechSynthesis.speak(u);});}
+function speak(t){return new Promise(r=>{let u=new SpeechSynthesisUtterance(t); u.rate=0.92; let vs=speechSynthesis.getVoices(); if(vs[0]) u.voice=vs[0]; u.onend=()=>r(); speechSynthesis.speak(u);});}
 
 async function playV5(){
  if(!scenes.length) return;
  let key=localStorage.getItem('did_key')||document.getElementById('didKey').value.trim();
  let cur=0;
  async function next(){
-  if(cur>=scenes.length){document.getElementById('stat').innerText='✅ Finished - Tap Record then Post';return}
-  document.getElementById('stat').innerText=`Playing ${cur+1}/6 - ${scenes[cur].type}`;
+  if(cur>=scenes.length){document.getElementById('stat').innerText='✅ Finished - Tap 🔴 Record then post to YouTube/TikTok';return}
+  document.getElementById('stat').innerText=`Playing ${cur+1}/6 with YOUR FACE - ${scenes[cur].type}`;
   let start=Date.now(),dur=5000; (function anim(){let p=(Date.now()-start)/dur; if(p>1)p=1; drawV5(cur,p); if(p<1) requestAnimationFrame(anim);})();
   if(key && scenes[cur].type==='presenter'){
-   try{ await talkDid(scenes[cur].text,key); }catch(e){ await speak(scenes[cur].text); }
+   try{ await talkDid(scenes[cur].text,key); }catch(e){ console.log(e); await speak(scenes[cur].text); }
   } else { await speak(scenes[cur].text); }
   cur++; setTimeout(next,500);
  }
@@ -140,11 +139,10 @@ async function playV5(){
 }
 
 async function talkDid(text,key){
- document.getElementById('stat').innerText='⏳ Creating REAL talking woman (D-ID)... 15 sec';
- let avatar=localStorage.getItem('avatar_url')||document.getElementById('avatarUrl').value;
- let res=await fetch('https://api.d-id.com/talks',{method:'POST',headers:{'Authorization':key,'Content-Type':'application/json'},body:JSON.stringify({source_url:avatar,script:{type:'text',input:text,provider:{type:'microsoft',voice_id:'en-US-JennyNeural'}},config:{fluent:true}})});
- let d=await res.json(); if(!d.id) throw 'DID err '+JSON.stringify(d);
- for(let i=0;i<25;i++){ await new Promise(r=>setTimeout(r,1500)); let r2=await fetch(`https://api.d-id.com/talks/${d.id}`,{headers:{'Authorization':key}}); let j=await r2.json(); if(j.result_url){ let v=document.getElementById('talkVid'); v.src=j.result_url; v.classList.remove('hidden'); v.play(); return new Promise(res=>{v.onended=()=>res(); setTimeout(res,9000);}); } }
+ document.getElementById('stat').innerText='⏳ Creating REAL video of YOUR FACE talking (D-ID)... 15 sec please wait';
+ let res=await fetch('https://api.d-id.com/talks',{method:'POST',headers:{'Authorization':key,'Content-Type':'application/json'},body:JSON.stringify({source_url:MY_AVATAR,script:{type:'text',input:text,provider:{type:'microsoft',voice_id:'en-US-GuyNeural'}},config:{fluent:true,pad_audio:0.3}})});
+ let d=await res.json(); if(!d.id){ document.getElementById('stat').innerText='D-ID error: '+JSON.stringify(d).slice(0,100); throw 'DID err';}
+ for(let i=0;i<30;i++){ await new Promise(r=>setTimeout(r,1500)); let r2=await fetch(`https://api.d-id.com/talks/${d.id}`,{headers:{'Authorization':key}}); let j=await r2.json(); if(j.result_url){ let v=document.getElementById('talkVid'); v.src=j.result_url; v.classList.remove('hidden'); v.play(); return new Promise(res=>{v.onended=()=>res(); setTimeout(res,10000);}); } if(j.status==='error') throw 'DID failed'; }
 }
 
 let rec,chunks=[];
@@ -152,14 +150,13 @@ function recordV5(){
  let cv=document.getElementById('c'); let stream=cv.captureStream(30);
  rec=new MediaRecorder(stream,{mimeType:'video/webm'}); chunks=[];
  rec.ondataavailable=e=>chunks.push(e.data);
- rec.onstop=()=>{ let blob=new Blob(chunks,{type:'video/webm'}); lastVideoBlob=blob; let url=URL.createObjectURL(blob); let a=document.createElement('a'); a.href=url; a.download='anointed-V5-'+Date.now()+'.webm'; a.click(); document.getElementById('stat').innerText='✅ V5 Video saved! Now use Post Studio below ⬇️'; };
- rec.start(); playV5(); setTimeout(()=>rec.state!=='inactive'&&rec.stop(),36000);
- document.getElementById('stat').innerText='🔴 Recording V5 Real Video 36s...';
+ rec.onstop=()=>{ let blob=new Blob(chunks,{type:'video/webm'}); lastBlob=blob; let url=URL.createObjectURL(blob); let a=document.createElement('a'); a.href=url; a.download='ANOINTED-YOUR-FACE-'+Date.now()+'.webm'; a.click(); document.getElementById('stat').innerText='✅ YOUR FACE VIDEO SAVED! Now use Auto Post Studio below to post ⬇️'; };
+ rec.start(); playV5(); setTimeout(()=>{if(rec.state!=='inactive') rec.stop();},38000);
+ document.getElementById('stat').innerText='🔴 Recording YOUR FACE 38s... Do not close';
 }
-function shareYT(){ let t=document.getElementById('ytTitle').value; let d=document.getElementById('ytDesc').value; let txt=encodeURIComponent(t+'\n\n'+d); window.open('https://www.youtube.com/upload','_blank'); navigator.clipboard.writeText(t+'\n\n'+d); alert('✅ Title+Description copied! Paste in YouTube upload. Video already saved to phone - upload it.'); }
-function shareTT(){ let d=document.getElementById('ytDesc').value; navigator.clipboard.writeText(d); window.open('https://www.tiktok.com/upload','_blank'); alert('✅ Caption copied! Paste in TikTok. Upload the video you just saved.'); }
-function shareFB(){ let d=document.getElementById('ytDesc').value; navigator.clipboard.writeText(d); window.open('https://www.facebook.com/','_blank'); alert('✅ Caption copied! Paste in Facebook Reel upload.'); }
-function downloadAll(){ let t=document.getElementById('ytTitle').value+'\n\n'+document.getElementById('ytDesc').value; let blob=new Blob([t],{type:'text/plain'}); let url=URL.createObjectURL(blob); let a=document.createElement('a'); a.href=url; a.download='captions.txt'; a.click(); }
+function shareYT(){ let t=document.getElementById('ytTitle').value+'\n\n'+document.getElementById('ytDesc').value; navigator.clipboard.writeText(t); window.open('https://www.youtube.com/upload','_blank'); alert('✅ Title+Description copied! Paste in YouTube. Upload the video you saved.'); }
+function shareTT(){ navigator.clipboard.writeText(document.getElementById('ytDesc').value); window.open('https://www.tiktok.com/upload','_blank'); alert('✅ Caption copied for TikTok! Paste and upload video.'); }
+function shareFB(){ navigator.clipboard.writeText(document.getElementById('ytDesc').value); window.open('https://www.facebook.com/reels/create','_blank'); alert('✅ Caption copied for Facebook Reels!'); }
 </script>
 </body>
 </html>

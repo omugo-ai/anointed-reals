@@ -3,73 +3,129 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Anointed Faceless Reels - OMUGO AI</title>
+<title>Anointed Studio V2 - Like Her Video</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-body{font-family:Poppins;background:#0a0a12;color:#fff}
+body{font-family:Poppins;background:#050510;color:#fff}
 .gold{background:linear-gradient(90deg,#FFD700,#FFA500);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .goldbg{background:linear-gradient(90deg,#FFD700,#FFA500)}
-.card{background:#15151f;border:1px solid #2a2a3a}
+.card{background:#12121f;border:1px solid #2a2a4a}
+#canvas{width:100%;aspect-ratio:9/16;background:#000;border-radius:16px}
 </style>
 </head>
-<body class="min-h-screen p-4">
-<div class="max-w-xl mx-auto">
-<h1 class="text-3xl font-bold text-center mt-4 gold">Anointed Faceless Reels</h1>
-<p class="text-center text-gray-400 text-sm mt-1">By OMUGO AI - Create Viral Biblical Stories</p>
+<body class="p-3">
+<div class="max-w-md mx-auto">
+<h1 class="text-2xl font-bold text-center gold mt-2">Anointed Studio V2</h1>
+<p class="text-center text-[11px] text-gray-400">Like her video - AI Presenter + Bible Movie</p>
 
-<div class="grid grid-cols-3 gap-3 mt-6">
-<button onclick="setStory('paul')" class="card rounded-xl p-3 text-center hover:border-yellow-500"><div class="text-2xl">⛓️</div><div class="text-xs font-semibold mt-1">Paul in Prison</div></button>
-<button onclick="setStory('mary')" class="card rounded-xl p-3 text-center hover:border-yellow-500"><div class="text-2xl">👩</div><div class="text-xs font-semibold mt-1">Mary Magdalene</div></button>
-<button onclick="setStory('samaritan')" class="card rounded-xl p-3 text-center hover:border-yellow-500"><div class="text-2xl">❤️</div><div class="text-xs font-semibold mt-1">Good Samaritan</div></button>
+<textarea id="story" class="w-full card rounded-xl p-3 mt-4 h-24 text-sm" placeholder="Paste Bible story... e.g. Saul on road to Damascus, light from heaven, Acts 7-9"></textarea>
+
+<div class="grid grid-cols-3 gap-2 mt-3">
+<button onclick="fill('paul')" class="card rounded-lg py-2 text-xs">⛓️ Paul Prison</button>
+<button onclick="fill('saul')" class="card rounded-lg py-2 text-xs bg-yellow-500/20 border-yellow-500">🔥 Saul to Paul</button>
+<button onclick="fill('mary')" class="card rounded-lg py-2 text-xs">👩 Empty Tomb</button>
 </div>
 
-<textarea id="storyInput" class="w-full card rounded-xl p-3 mt-5 h-28 text-sm" placeholder="Type your story idea or tap a box above..."></textarea>
+<button onclick="generateScenes()" class="w-full goldbg text-black font-bold py-3 rounded-full mt-4">✨ Generate Her Style Script</button>
 
-<div class="flex gap-2 mt-4">
-<button onclick="setDur('60s')" id="b60" class="flex-1 goldbg text-black font-bold py-2 rounded-full text-sm">60s</button>
-<button onclick="setDur('90s')" id="b90" class="flex-1 card py-2 rounded-full text-sm">90s</button>
-<button onclick="setDur('custom')" id="bcu" class="flex-1 card py-2 rounded-full text-sm">Custom</button>
+<div id="player" class="hidden mt-4">
+<canvas id="canvas" width="720" height="1280"></canvas>
+<div class="flex gap-2 mt-3">
+<button onclick="play()" id="playBtn" class="flex-1 goldbg text-black font-bold py-3 rounded-full">▶️ Play Preview</button>
+<button onclick="startRecord()" id="recBtn" class="flex-1 card py-3 rounded-full font-bold">🔴 Record MP4</button>
+</div>
+<p id="status" class="text-center text-xs text-yellow-400 mt-2">Ready - 6 scenes generated like her video</p>
 </div>
 
-<button onclick="generate()" class="w-full goldbg text-black font-bold py-3 rounded-full mt-5 text-lg">✨ AI Write - Generate Script</button>
-
-<div id="output" class="card rounded-xl p-4 mt-5 hidden">
-<div class="flex justify-between items-center"><h3 class="font-bold">Your Viral Script</h3><button onclick="copyAll()" class="text-xs goldbg text-black px-3 py-1 rounded-full">Copy All</button></div>
-<pre id="scriptText" class="whitespace-pre-wrap text-sm mt-3 text-gray-200 leading-relaxed"></pre>
-<div class="mt-4 p-3 bg-black rounded-lg text-xs text-gray-400">🎬 Image Prompts: Copy each scene to Leonardo / Midjourney to create faceless images</div>
+<div id="scriptOut" class="card rounded-xl p-3 mt-4 hidden">
+<h3 class="font-bold text-sm">Scenes (like her video):</h3>
+<div id="list" class="text-[11px] text-gray-300 mt-2 space-y-2"></div>
 </div>
-
-<p class="text-center text-[10px] text-gray-500 mt-8">OMUGO AI Builder © 2026 - Save to Home Screen for App Experience</p>
 </div>
 
 <script>
-let dur='60s'
-function setDur(d){dur=d;document.querySelectorAll('#b60,#b90,#bcu').forEach(b=>{b.className='flex-1 card py-2 rounded-full text-sm'});document.getElementById(d=='60s'?'b60':d=='90s'?'b90':'bcu').className='flex-1 goldbg text-black font-bold py-2 rounded-full text-sm'}
+let scenes=[]
+let current=0
+let speaking=false
 
-function setStory(type){
-const stories={
-paul:"Paul is in a dark Roman prison, chains on his hands, but he is singing. The other prisoners are listening. A guard is angry. Suddenly an earthquake shakes the prison doors open. What will Paul do?",
-mary:"Mary Magdalene is crying outside the empty tomb. She thinks someone stole Jesus. A man she thinks is the gardener calls her name: MARY! She turns and recognizes Him. He is alive!",
-samaritan:"A man is beaten and left on the road. A priest passes, a Levite passes, but a hated Samaritan stops. He has compassion. He pays for his healing. Who is your neighbor?"
-}
-document.getElementById('storyInput').value=stories[type]
+function fill(t){
+ const m={
+  paul:"Paul in prison chains singing at midnight, earthquake opens doors, jailer saved - Acts 16",
+  saul:"Saul was persecutor of Christians, on road to Damascus light from heaven blinded him, Jesus said Saul why persecute me, he became Paul, Acts 7, Acts 22, Philippians 3",
+  mary:"Mary Magdalene crying at empty tomb, gardener calls her name Mary, she recognizes Jesus risen"
+ }
+ document.getElementById('story').value=m[t]
 }
 
-function generate(){
-let input=document.getElementById('storyInput').value||"A man beaten on the road to Jericho is saved by a stranger"
-let script=""
-if(dur=='60s'){
-script=`HOOK (0-3s):\nYou won't believe what Paul did when the prison doors opened...\n\nSCENE 1 - The Prison (3-15s):\nVoiceover: "${input.slice(0,120)}"\nOn-screen text: Chains couldn't silence him\nImage Prompt: dark roman prison, faceless man in chains singing, cinematic light from window, 9:16\n\nSCENE 2 - The Miracle (15-35s):\nVoiceover: At midnight, the ground shook. Doors flew open. Freedom was here, but Paul stayed.\nOn-screen text: He chose love over freedom\nImage Prompt: prison doors open by earthquake, faceless prisoner still inside praying, dust particles\n\nSCENE 3 - The Lesson (35-60s):\nVoiceover: He told the guard: Don't harm yourself. We are all here. That night, the jailer's family was saved.\nOn-screen text: Your worship in pain can save someone else\nCTA: Type AMEN if you will praise God in your prison\n\nHashtags: #BibleStory #Paul #AnointedReels #OMUGOAI`
-}else{
-script=`HOOK (0-5s):\nShe came to anoint a dead body, but found a living Savior...\n\nSCENE 1 (5-20s): ${input}\nSCENE 2 (20-45s): The twist that changes everything\nSCENE 3 (45-90s): The message: Jesus calls you by name today\n\nUse 6 images, 9:16, faceless, cinematic, golden hour light`
+function generateScenes(){
+ let input=document.getElementById('story').value||"Saul on road to Damascus"
+ scenes=[
+  {type:"presenter", text:"Today, we journey into the story of a man who changed history. But before Paul, there was Saul.", img:"https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=720"},
+  {type:"bible", text:"Today's spiritual journey, Acts chapter seven through Acts chapter twenty-two, Philippians chapter three, and Second Corinthians chapter eleven.", img:`https://image.pollinations.ai/prompt/bible%20open%20Acts%20chapter%20ancient%20parchment%20cinematic%20light?width=720&height=1280&nologo=true`},
+  {type:"presenter", text:"He was a Pharisee, educated, zealous for what he believed belonged to God.", img:"https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=720"},
+  {type:"bible", text:"On that road to Damascus, a light from heaven flashed around him. He fell to the ground and heard a voice: Saul, Saul, why persecutest thou me?", img:`https://image.pollinations.ai/prompt/Saul%20on%20horse%20road%20to%20Damascus%20blinding%20light%20from%20heaven%20biblical%20epic%20cinematic?width=720&height=1280&nologo=true`},
+  {type:"bible", text:"He said, Who art thou, Lord? And the Lord said, I am Jesus whom thou persecutest. What you do to my people, you do to me.", img:`https://image.pollinations.ai/prompt/Saul%20fallen%20on%20ground%20desert%20blinded%20hands%20covering%20eyes%20divine%20light%20rays?width=720&height=1280&nologo=true`},
+  {type:"presenter", text:"You may be persecuting Jesus and you don't know. But today, He is calling your name, just like He called Saul. Will you answer?", img:"https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=720"}
+ ]
+ document.getElementById('player').classList.remove('hidden')
+ document.getElementById('scriptOut').classList.remove('hidden')
+ let h=""
+ scenes.forEach((s,i)=>{h+=`<div><b>Scene ${i+1} [${s.type}]:</b> ${s.text}<br><span class="text-[10px] text-yellow-500">${s.type=='bible'?'Image: biblical cinematic 9:16':''}</span></div>`})
+ document.getElementById('list').innerHTML=h
+ draw(0)
+ document.getElementById('status').innerText="✅ 6 scenes ready like her video - Tap Play"
 }
-document.getElementById('scriptText').innerText=script
-document.getElementById('output').classList.remove('hidden')
-window.scrollTo(0,document.body.scrollHeight)
+
+function draw(i){
+ const c=document.getElementById('canvas'); const ctx=c.getContext('2d');
+ const s=scenes[i]; if(!s) return;
+ ctx.fillStyle="#000"; ctx.fillRect(0,0,720,1280);
+ const img=new Image(); img.crossOrigin="anonymous";
+ img.src=s.img;
+ img.onload=()=>{
+  ctx.drawImage(img,0,0,720,1280);
+  ctx.fillStyle="rgba(0,0,0,0.5)"; ctx.fillRect(0,900,720,380);
+  ctx.fillStyle="#fff"; ctx.font="bold 32px Poppins";
+  let words=s.text.match(/.{1,38}/g)||[s.text];
+  words.slice(0,5).forEach((w,j)=>{ctx.fillText(w,30,960+j*38)})
+ }
+ if(img.complete){ ctx.drawImage(img,0,0,720,1280); }
 }
-function copyAll(){navigator.clipboard.writeText(document.getElementById('scriptText').innerText);alert('Copied! Paste to CapCut')}
-setStory('paul')
+
+function play(){
+ if(scenes.length==0) return;
+ let idx=0;
+ function next(){
+  if(idx>=scenes.length){document.getElementById('status').innerText="Finished - Tap Record MP4"; return}
+  draw(idx);
+  let u=new SpeechSynthesisUtterance(scenes[idx].text);
+  u.rate=0.9; u.pitch=1.1; u.voice=speechSynthesis.getVoices().find(v=>v.name.includes('Female'))||null;
+  u.onend=()=>{idx++; setTimeout(next,400)}
+  speechSynthesis.speak(u);
+  document.getElementById('status').innerText=`Playing Scene ${idx+1}/${scenes.length}: ${scenes[idx].type}`
+ }
+ next()
+}
+
+let recorder, chunks=[]
+function startRecord(){
+ const c=document.getElementById('canvas');
+ const stream=c.captureStream(30);
+ recorder=new MediaRecorder(stream,{mimeType:'video/webm'});
+ chunks=[];
+ recorder.ondataavailable=e=>chunks.push(e.data);
+ recorder.onstop=()=>{
+  const blob=new Blob(chunks,{type:'video/webm'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download='anointed-saullike-her-video.webm'; a.click();
+  document.getElementById('status').innerText="✅ Video saved! Convert to MP4 in CapCut and post"
+ }
+ recorder.start();
+ play();
+ setTimeout(()=>recorder.stop(), 35000);
+ document.getElementById('status').innerText="🔴 Recording 35s video like hers..."
+}
 </script>
 </body>
 </html>

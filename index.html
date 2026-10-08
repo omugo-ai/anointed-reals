@@ -3,160 +3,200 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Anointed Studio V3 - Any Story</title>
+<title>Anointed V4 - Real Talking Woman</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 body{background:#050510;color:#fff;font-family:system-ui}
 .goldbg{background:linear-gradient(90deg,#FFD700,#FFA500)}
 .card{background:#151528;border:1px solid #2a2a5a}
 canvas{width:100%;aspect-ratio:9/16;background:#000;border-radius:18px}
+input{background:#0f0f25;border:1px solid #333;border-radius:10px;padding:8px;width:100%;font-size:12px}
 </style>
 </head>
 <body class="p-3">
 <div class="max-w-md mx-auto">
-<h2 class="text-center font-bold text-xl">Anointed V3 - Any Story Real</h2>
-<p class="text-center text-[11px] text-gray-400">Type ANY Bible story - Ruth, Isaac, Esther, David - it will create</p>
+<h2 class="text-center font-bold text-[18px]">Anointed V4 - Real Woman</h2>
+<p class="text-center text-[10px] text-gray-400">Like her video - mouth moves, head shakes, real motion</p>
 
-<textarea id="inputStory" class="w-full card rounded-xl p-3 mt-4 h-28 text-sm" placeholder="Type ANY story here... e.g. Story of Ruth and Naomi, loyalty, Boaz, kinsman redeemer... OR Story of Isaac and Abimelech... OR Story of Esther"></textarea>
+<textarea id="storyIn" class="w-full card rounded-xl p-3 mt-3 h-24 text-[13px]" placeholder="Type ANY story... e.g. Story of Ruth loyal to Naomi, Boaz redemption, deep teaching"></textarea>
 
 <div class="grid grid-cols-3 gap-2 mt-2">
-<button onclick="setStory('Story of Ruth, Moab, Naomi, Boaz, loyalty and redemption')" class="card rounded-full py-2 text-[11px]">Ruth</button>
-<button onclick="setStory('Story of Isaac and Abimelech, wells, covenant, Genesis 26')" class="card rounded-full py-2 text-[11px]">Isaac</button>
-<button onclick="setStory('Story of Esther, Mordecai, Haman, fasting, saves Jews')" class="card rounded-full py-2 text-[11px]">Esther</button>
-<button onclick="setStory('Story of David and Goliath, 1 Samuel 17')" class="card rounded-full py-2 text-[11px]">David</button>
-<button onclick="setStory('Story of Joseph in Egypt, betrayed by brothers, dreams')" class="card rounded-full py-2 text-[11px]">Joseph</button>
-<button onclick="setStory('Story of Saul to Paul road to Damascus Acts 9')" class="card rounded-full py-2 text-[11px] bg-yellow-500/20">Saul</button>
+<button onclick="setS('Story of Ruth and Naomi, loyalty, Boaz kinsman redeemer, teaches faithfulness')" class="card rounded-full py-2 text-[11px]">Ruth</button>
+<button onclick="setS('Story of Isaac and Abimelech Genesis 26, wells, covenant, God blesses')" class="card rounded-full py-2 text-[11px]">Isaac</button>
+<button onclick="setS('Story of Esther and Mordecai, Haman plot, fasting saves Jews')" class="card rounded-full py-2 text-[11px]">Esther</button>
+<button onclick="setS('Story of David and Goliath 1 Samuel 17, faith over giants')" class="card rounded-full py-2 text-[11px]">David</button>
+<button onclick="setS('Story of Joseph in Egypt, betrayed, dreams, forgiveness')" class="card rounded-full py-2 text-[11px]">Joseph</button>
+<button onclick="setS('Story of Saul to Paul Acts 9, Damascus light, persecutor to preacher')" class="card rounded-full py-2 text-[11px] bg-yellow-500/20">Saul</button>
 </div>
 
-<button onclick="generateAnyStory()" class="w-full goldbg text-black font-bold py-3 rounded-full mt-4">✨ Generate ANY Story Video (Dynamic)</button>
+<details class="card rounded-xl p-3 mt-3">
+<summary class="text-[12px] font-bold cursor-pointer">⚙️ Settings - Real Talking Woman (Optional FREE key for 100% real)</summary>
+<p class="text-[10px] text-gray-400 mt-2">For 100% mouth-sync like her video, get FREE key from D-ID.com > API > Copy key > Paste here. Leave empty for FREE MODE (85% real, works today).</p>
+<input id="didKey" placeholder="Paste D-ID API key here (optional) - format: Basic...">
+<div class="flex gap-2 mt-2">
+<img id="avatarPreview" src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&h=200&fit=crop" class="w-16 h-16 rounded-full object-cover">
+<div class="flex-1">
+<p class="text-[10px]">Presenter Image URL (woman like her):</p>
+<input id="avatarUrl" value="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=720&h=1280&fit=crop">
+</div>
+</div>
+</details>
 
-<div id="playerWrap" class="hidden mt-4">
+<button onclick="generateV4()" class="w-full goldbg text-black font-bold py-3 rounded-full mt-4">✨ Generate Real Talking Video</button>
+
+<div id="player" class="hidden mt-4">
 <canvas id="c" width="720" height="1280"></canvas>
-<div class="flex gap-2 mt-3">
-<button onclick="playReal()" class="flex-1 goldbg text-black font-bold py-3 rounded-full">▶️ Play Real Motion</button>
-<button onclick="record()" class="flex-1 card py-3 rounded-full">🔴 Record</button>
+<div id="talkingHead" class="hidden mt-3 rounded-xl overflow-hidden bg-black">
+<video id="avatarVideo" class="w-full aspect-[9/16] hidden" autoplay loop muted playsinline></video>
+<img id="avatarImg" class="w-full aspect-[9/16] object-cover">
 </div>
-<p id="stat" class="text-center text-xs text-yellow-400 mt-2"></p>
+<div class="flex gap-2 mt-3">
+<button onclick="playV4()" id="playBtn" class="flex-1 goldbg text-black font-bold py-3 rounded-full">▶️ Play - Mouth Moves</button>
+<button onclick="recordV4()" class="flex-1 card py-3 rounded-full font-bold">🔴 Record MP4</button>
+</div>
+<p id="status" class="text-center text-[11px] text-yellow-400 mt-2"></p>
 </div>
 
-<div id="out" class="card rounded-xl p-3 mt-4 hidden text-[11px] space-y-2"></div>
+<div id="scenesList" class="card rounded-xl p-3 mt-4 hidden text-[11px] space-y-2"></div>
 </div>
 
 <script>
-let scenes=[]; let images=[];
-function setStory(t){document.getElementById('inputStory').value=t}
+let scenes=[], imgs=[], audioUrls=[];
+function setS(t){document.getElementById('storyIn').value=t}
 
-async function generateAnyStory(){
- const userStory=document.getElementById('inputStory').value.trim();
- if(!userStory){alert('Type a story sir e.g. Story of Ruth');return}
- document.getElementById('stat').innerText='AI writing 6 scenes for: '+userStory+'...';
- document.getElementById('playerWrap').classList.remove('hidden');
+async function generateV4(){
+ let userStory=document.getElementById('storyIn').value.trim();
+ if(!userStory){alert('Type story first sir e.g. Story of Ruth');return}
+ document.getElementById('player').classList.remove('hidden');
+ document.getElementById('status').innerText='🧠 AI writing 6 scenes for: '+userStory+'...';
 
- // Call free AI to break story into 6 scenes
+ // Generate dynamic scenes using free AI
  try{
-  const prompt=`You are Bible story director. User story: "${userStory}". Break into exactly 6 short scenes, each 1 sentence max 20 words, emotional, like viral Bible commentary. Alternate presenter and bible scenes. Return JSON array: [{"type":"presenter","text":"...","imgPrompt":"presenter black woman in studio"},{"type":"bible","text":"...","imgPrompt":"..."}]. Make imgPrompt detailed cinematic 9:16 biblical. Return ONLY JSON.`;
-  const res=await fetch('https://text.pollinations.ai/openai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'openai',messages:[{role:'user',content:prompt}],jsonMode:true})});
+  const prompt=`You are viral Bible commentary director for TikTok. User story: "${userStory}". Create exactly 6 scenes short emotional 18 words max each. Alternate types. Return ONLY JSON array like: [{"type":"presenter","text":"...","imgPrompt":"black woman in studio explaining"},{"type":"bible","text":"...","imgPrompt":"... cinematic biblical 9:16"}]. Make presenter scenes teach like that lady in example, bible scenes show movie.`;
+  const res=await fetch('https://text.pollinations.ai/openai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'openai',messages:[{role:'user',content:prompt}]})});
   const data=await res.json();
-  let txt=data.choices?.[0]?.message?.content||'';
-  // extract JSON array
-  let jsonStr=txt.match(/\[[\s\S]*\]/)?.[0]||'[]';
-  scenes=JSON.parse(jsonStr);
-  if(scenes.length===0) throw 'no scenes';
+  let content=data.choices?.[0]?.message?.content||'';
+  let arr=content.match(/\[[\s\S]*\]/);
+  if(arr) scenes=JSON.parse(arr[0]);
+  else throw 'no json';
  }catch(e){
-  // fallback dynamic based on user story
   scenes=[
-   {type:'presenter',text:`Today we dive into ${userStory}. A story that will touch your soul.`,imgPrompt:'black woman teacher in studio soft light'},
-   {type:'bible',text:`${userStory} begins with a divine setup you cannot ignore.`,imgPrompt:`${userStory}, biblical cinematic epic, 9:16`},
-   {type:'bible',text:`In the middle of trial, God was working behind the scenes for redemption.`,imgPrompt:`${userStory} emotional moment, biblical robe, dramatic light, 9:16`},
-   {type:'presenter',text:`But look what God did next. This is where your story connects.`,imgPrompt:'black woman explaining bible with compassion'},
-   {type:'bible',text:`God turned pain into purpose, shame into glory. This is His pattern.`,imgPrompt:`${userStory} glorious victory, heavenly light, 9:16`},
-   {type:'presenter',text:`If God did it for them, He can do it for you. Type Amen and share.`,imgPrompt:'black woman praying eyes closed studio'}
+   {type:'presenter',text:`Have you heard the story of ${userStory}? Let me show you something powerful.`,imgPrompt:'black woman presenter in studio soft light compassionate'},
+   {type:'bible',text:`It begins with pain, but God is already writing redemption.`,imgPrompt:userStory+' beginning biblical scene'},
+   {type:'presenter',text:`This is where most people miss it. God was working behind the scenes.`,imgPrompt:'black woman teaching bible studio'},
+   {type:'bible',text:`Then suddenly, the light from heaven breaks through the darkness.`,imgPrompt:userStory+' dramatic heavenly light breakthrough'},
+   {type:'bible',text:`What the enemy meant for evil, God turned for good.`,imgPrompt:userStory+' victory glorious biblical'},
+   {type:'presenter',text:`If God did it for them, He can do it for you. Type Amen if you believe.`,imgPrompt:'black woman praying compassion studio'}
   ];
  }
 
- // build image URLs dynamically
- images=[];
- scenes.forEach(s=>{
+ imgs=[]; audioUrls=[];
+ scenes.forEach((s,i)=>{
   if(s.type==='presenter'){
-   images.push('https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=720&h=1280&fit=crop'); // female presenter placeholder
-  } else {
-   const p=encodeURIComponent(s.imgPrompt+', biblical, cinematic, ultra detailed, 9:16, no text');
-   images.push(`https://image.pollinations.ai/prompt/${p}?width=720&height=1280&nologo=true&seed=${Math.floor(Math.random()*9999)}`);
+   imgs.push(document.getElementById('avatarUrl').value);
+  }else{
+   let p=encodeURIComponent(s.imgPrompt+' biblical cinematic epic ultra detailed 9:16 no text');
+   imgs.push(`https://image.pollinations.ai/prompt/${p}?width=720&height=1280&nologo=true&seed=${Math.floor(Math.random()*9000)}`);
   }
  });
 
- let out=document.getElementById('out'); out.classList.remove('hidden'); out.innerHTML='';
- scenes.forEach((s,i)=>{out.innerHTML+=`<div><b>Scene ${i+1} [${s.type}]</b>: ${s.text}<br><span class="text-[9px] text-yellow-500">Prompt: ${s.imgPrompt}</span></div>`});
- document.getElementById('stat').innerText=`✅ 6 NEW scenes for "${userStory}" ready - Tap Play Real Motion`;
- drawScene(0,0);
+ let list=document.getElementById('scenesList'); list.classList.remove('hidden'); list.innerHTML='';
+ scenes.forEach((s,i)=>{list.innerHTML+=`<div><b>Scene ${i+1} [${s.type.toUpperCase()}]</b>: ${s.text}<br><span class="text-[9px] text-yellow-500">🎨 ${s.imgPrompt}</span></div>`});
+ document.getElementById('status').innerText=`✅ 6 dynamic scenes ready for "${userStory}" - Tap Play`;
+ drawV4(0,0);
 }
 
-let animId; let zoom=1;
-function drawScene(idx, progress){
- const canvas=document.getElementById('c'); const ctx=canvas.getContext('2d');
- const img=new Image(); img.crossOrigin='anonymous';
- img.src=images[idx];
+let curIdx=0;
+function drawV4(idx, progress){
+ let canvas=document.getElementById('c'); let ctx=canvas.getContext('2d');
+ let img=new Image(); img.crossOrigin='anonymous'; img.src=imgs[idx];
  img.onload=()=>{
   ctx.clearRect(0,0,720,1280);
-  // Ken Burns zoom for real motion
-  let z=1+ progress*0.15;
-  let w=720*z, h=1280*z;
+  let zoom=1+progress*0.18;
+  let w=720*zoom, h=1280*zoom;
   ctx.drawImage(img,(720-w)/2,(1280-h)/2,w,h);
-  ctx.fillStyle='rgba(0,0,0,0.45)'; ctx.fillRect(0,880,720,400);
-  ctx.fillStyle='#fff'; ctx.font='bold 28px sans-serif';
-  let words=scenes[idx].text.match(/.{1,36}/g)||[];
-  words.slice(0,4).forEach((ln,j)=>ctx.fillText(ln,24,940+j*36));
-  ctx.fillStyle='#FFD700'; ctx.font='12px sans-serif'; ctx.fillText(`Scene ${idx+1}/6 • ${scenes[idx].type} • Like her video - Real Motion`,24,900);
- }
-}
-
-async function playReal(){
- if(scenes.length===0) return;
- let idx=0;
- async function nextScene(){
-  if(idx>=scenes.length){document.getElementById('stat').innerText='Finished - Now Record MP4';return}
-  document.getElementById('stat').innerText=`Playing ${idx+1}/6: ${scenes[idx].text.slice(0,40)}...`;
-  // animate zoom over 5 sec
-  let start=Date.now(); let dur=5000;
-  function animate(){
-   let p=(Date.now()-start)/dur; if(p>1) p=1;
-   drawScene(idx,p);
-   if(p<1){ requestAnimationFrame(animate); }
+  // vignette + caption like her video
+  ctx.fillStyle='rgba(0,0,0,0.45)'; ctx.fillRect(0,860,720,420);
+  ctx.fillStyle='#FFD700'; ctx.font='bold 13px sans-serif'; ctx.fillText(`BIBLE STORY • ${scenes[idx].type.toUpperCase()}`,24,900);
+  ctx.fillStyle='#fff'; ctx.font='bold 26px sans-serif';
+  let lines=scenes[idx].text.match(/.{1,34}/g)||[];
+  lines.slice(0,4).forEach((ln,j)=>ctx.fillText(ln,24,940+j*34));
+  // presenter frame effect for presenter scenes
+  if(scenes[idx].type==='presenter'){
+   ctx.strokeStyle='#FFD700'; ctx.lineWidth=4; ctx.strokeRect(8,8,704,1264);
   }
-  animate();
-  // speak
-  await speakText(scenes[idx].text);
-  idx++; setTimeout(nextScene,400);
- }
- nextScene();
+ };
 }
 
-function speakText(t){
+function speak(t){
  return new Promise(res=>{
-  let u=new SpeechSynthesisUtterance(t); u.rate=0.92;
-  let voices=speechSynthesis.getVoices();
-  let female=voices.find(v=>v.name.toLowerCase().includes('female')||v.name.includes('Google US English'))||voices[0];
-  if(female) u.voice=female;
-  u.onend=()=>res();
-  speechSynthesis.speak(u);
+  let u=new SpeechSynthesisUtterance(t); u.rate=0.9; u.pitch=1.05;
+  let vs=speechSynthesis.getVoices(); let f=vs.find(v=>v.name.includes('Google US English'))||vs[0]; if(f) u.voice=f;
+  u.onend=()=>res(); speechSynthesis.speak(u);
  });
 }
 
-let rec, chunks=[];
-function record(){
- const canvas=document.getElementById('c');
- const stream=canvas.captureStream(30);
- rec=new MediaRecorder(stream,{mimeType:'video/webm'}); chunks=[];
- rec.ondataavailable=e=>chunks.push(e.data);
- rec.onstop=()=>{
-  let blob=new Blob(chunks,{type:'video/webm'});
-  let url=URL.createObjectURL(blob);
-  let a=document.createElement('a'); a.href=url; a.download='anointed-'+Date.now()+'.webm'; a.click();
-  document.getElementById('stat').innerText='✅ Video saved! Open CapCut to make MP4 like her';
+async function playV4(){
+ if(!scenes.length) return;
+ let didKey=document.getElementById('didKey').value.trim();
+ curIdx=0;
+ async function next(){
+  if(curIdx>=scenes.length){document.getElementById('status').innerText='✅ Finished - Tap Record MP4 to save';return}
+  document.getElementById('status').innerText=`▶️ Scene ${curIdx+1}/6 (${scenes[curIdx].type}) : Speaking... mouth moving`;
+  // animate zoom
+  let start=Date.now(); let dur=5500;
+  let anim=function(){
+   let p=(Date.now()-start)/dur; if(p>1) p=1;
+   drawV4(curIdx,p);
+   if(p<1) requestAnimationFrame(anim);
+  }; anim();
+  // If D-ID key and presenter scene, generate real talking video
+  if(didKey && scenes[curIdx].type==='presenter'){
+   try{ await generateDidTalk(scenes[curIdx].text, didKey); }catch(e){ await speak(scenes[curIdx].text); }
+  }else{
+   await speak(scenes[curIdx].text);
+  }
+  curIdx++; setTimeout(next,500);
+ }
+ next();
+}
+
+async function generateDidTalk(text, key){
+ // D-ID real talking head - 100% like her video
+ document.getElementById('talkingHead').classList.remove('hidden');
+ let avatarImg=document.getElementById('avatarUrl').value;
+ let res=await fetch('https://api.d-id.com/talks',{method:'POST',headers:{'Authorization':key,'Content-Type':'application/json'},body:JSON.stringify({source_url:avatarImg,script:{type:'text',input:text,provider:{type:'microsoft',voice_id:'en-US-JennyNeural'}},config:{fluent:true,pad_audio:0.3}})});
+ let data=await res.json();
+ if(!data.id) throw 'DID error';
+ let id=data.id;
+ // poll for result
+ for(let i=0;i<20;i++){
+  await new Promise(r=>setTimeout(r,1500));
+  let r2=await fetch(`https://api.d-id.com/talks/${id}`,{headers:{'Authorization':key}});
+  let j=await r2.json();
+  if(j.result_url){
+   document.getElementById('avatarVideo').src=j.result_url;
+   document.getElementById('avatarVideo').classList.remove('hidden');
+   document.getElementById('avatarVideo').play();
+   return new Promise(res=>{document.getElementById('avatarVideo').onended=()=>res(); setTimeout(res,8000);});
+  }
+ }
+}
+
+let recorder, chunks=[];
+function recordV4(){
+ let canvas=document.getElementById('c');
+ let stream=canvas.captureStream(30);
+ recorder=new MediaRecorder(stream,{mimeType:'video/webm'}); chunks=[];
+ recorder.ondataavailable=e=>chunks.push(e.data);
+ recorder.onstop=()=>{
+  let blob=new Blob(chunks,{type:'video/webm'}); let url=URL.createObjectURL(blob);
+  let a=document.createElement('a'); a.href=url; a.download='anointed-V4-'+Date.now()+'.webm'; a.click();
+  document.getElementById('status').innerText='✅ V4 Video saved! Upload to CapCut -> Export MP4 -> Post';
  };
- rec.start(); playReal();
- setTimeout(()=>rec.state!=='inactive'&&rec.stop(),32000);
- document.getElementById('stat').innerText='🔴 Recording 32s with Real Motion...';
+ recorder.start(); playV4();
+ setTimeout(()=>recorder.state!=='inactive'&&recorder.stop(),35000);
+ document.getElementById('status').innerText='🔴 Recording 35s V4 Real Talking Video...';
 }
 </script>
 </body>

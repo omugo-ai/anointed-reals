@@ -1,1 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Anointed Faceless Reels - OMUGO AI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+body{font-family:Poppins;background:#0a0a12;color:#fff}
+.gold{background:linear-gradient(90deg,#FFD700,#FFA500);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.goldbg{background:linear-gradient(90deg,#FFD700,#FFA500)}
+.card{background:#15151f;border:1px solid #2a2a3a}
+</style>
+</head>
+<body class="min-h-screen p-4">
+<div class="max-w-xl mx-auto">
+<h1 class="text-3xl font-bold text-center mt-4 gold">Anointed Faceless Reels</h1>
+<p class="text-center text-gray-400 text-sm mt-1">By OMUGO AI - Create Viral Biblical Stories</p>
 
+<div class="grid grid-cols-3 gap-3 mt-6">
+<button onclick="setStory('paul')" class="card rounded-xl p-3 text-center hover:border-yellow-500"><div class="text-2xl">⛓️</div><div class="text-xs font-semibold mt-1">Paul in Prison</div></button>
+<button onclick="setStory('mary')" class="card rounded-xl p-3 text-center hover:border-yellow-500"><div class="text-2xl">👩</div><div class="text-xs font-semibold mt-1">Mary Magdalene</div></button>
+<button onclick="setStory('samaritan')" class="card rounded-xl p-3 text-center hover:border-yellow-500"><div class="text-2xl">❤️</div><div class="text-xs font-semibold mt-1">Good Samaritan</div></button>
+</div>
+
+<textarea id="storyInput" class="w-full card rounded-xl p-3 mt-5 h-28 text-sm" placeholder="Type your story idea or tap a box above..."></textarea>
+
+<div class="flex gap-2 mt-4">
+<button onclick="setDur('60s')" id="b60" class="flex-1 goldbg text-black font-bold py-2 rounded-full text-sm">60s</button>
+<button onclick="setDur('90s')" id="b90" class="flex-1 card py-2 rounded-full text-sm">90s</button>
+<button onclick="setDur('custom')" id="bcu" class="flex-1 card py-2 rounded-full text-sm">Custom</button>
+</div>
+
+<button onclick="generate()" class="w-full goldbg text-black font-bold py-3 rounded-full mt-5 text-lg">✨ AI Write - Generate Script</button>
+
+<div id="output" class="card rounded-xl p-4 mt-5 hidden">
+<div class="flex justify-between items-center"><h3 class="font-bold">Your Viral Script</h3><button onclick="copyAll()" class="text-xs goldbg text-black px-3 py-1 rounded-full">Copy All</button></div>
+<pre id="scriptText" class="whitespace-pre-wrap text-sm mt-3 text-gray-200 leading-relaxed"></pre>
+<div class="mt-4 p-3 bg-black rounded-lg text-xs text-gray-400">🎬 Image Prompts: Copy each scene to Leonardo / Midjourney to create faceless images</div>
+</div>
+
+<p class="text-center text-[10px] text-gray-500 mt-8">OMUGO AI Builder © 2026 - Save to Home Screen for App Experience</p>
+</div>
+
+<script>
+let dur='60s'
+function setDur(d){dur=d;document.querySelectorAll('#b60,#b90,#bcu').forEach(b=>{b.className='flex-1 card py-2 rounded-full text-sm'});document.getElementById(d=='60s'?'b60':d=='90s'?'b90':'bcu').className='flex-1 goldbg text-black font-bold py-2 rounded-full text-sm'}
+
+function setStory(type){
+const stories={
+paul:"Paul is in a dark Roman prison, chains on his hands, but he is singing. The other prisoners are listening. A guard is angry. Suddenly an earthquake shakes the prison doors open. What will Paul do?",
+mary:"Mary Magdalene is crying outside the empty tomb. She thinks someone stole Jesus. A man she thinks is the gardener calls her name: MARY! She turns and recognizes Him. He is alive!",
+samaritan:"A man is beaten and left on the road. A priest passes, a Levite passes, but a hated Samaritan stops. He has compassion. He pays for his healing. Who is your neighbor?"
+}
+document.getElementById('storyInput').value=stories[type]
+}
+
+function generate(){
+let input=document.getElementById('storyInput').value||"A man beaten on the road to Jericho is saved by a stranger"
+let script=""
+if(dur=='60s'){
+script=`HOOK (0-3s):\nYou won't believe what Paul did when the prison doors opened...\n\nSCENE 1 - The Prison (3-15s):\nVoiceover: "${input.slice(0,120)}"\nOn-screen text: Chains couldn't silence him\nImage Prompt: dark roman prison, faceless man in chains singing, cinematic light from window, 9:16\n\nSCENE 2 - The Miracle (15-35s):\nVoiceover: At midnight, the ground shook. Doors flew open. Freedom was here, but Paul stayed.\nOn-screen text: He chose love over freedom\nImage Prompt: prison doors open by earthquake, faceless prisoner still inside praying, dust particles\n\nSCENE 3 - The Lesson (35-60s):\nVoiceover: He told the guard: Don't harm yourself. We are all here. That night, the jailer's family was saved.\nOn-screen text: Your worship in pain can save someone else\nCTA: Type AMEN if you will praise God in your prison\n\nHashtags: #BibleStory #Paul #AnointedReels #OMUGOAI`
+}else{
+script=`HOOK (0-5s):\nShe came to anoint a dead body, but found a living Savior...\n\nSCENE 1 (5-20s): ${input}\nSCENE 2 (20-45s): The twist that changes everything\nSCENE 3 (45-90s): The message: Jesus calls you by name today\n\nUse 6 images, 9:16, faceless, cinematic, golden hour light`
+}
+document.getElementById('scriptText').innerText=script
+document.getElementById('output').classList.remove('hidden')
+window.scrollTo(0,document.body.scrollHeight)
+}
+function copyAll(){navigator.clipboard.writeText(document.getElementById('scriptText').innerText);alert('Copied! Paste to CapCut')}
+setStory('paul')
+</script>
+</body>
+</html>
